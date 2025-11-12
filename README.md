@@ -4,7 +4,7 @@
 This is my e-commerce website, created to showcase my design skills, front-end development skills, and back-end development skills. It serves as a deliverable for IDM364: Interactive App Design IV's Final Project.
 
 ## Installation & Access
-You can access the live website [here](under construction).
+You can access the live website [here](#) *(currently under construction).*
 Alternatively, explore the project files directly in this GitHub repository.
 
 ## Features
