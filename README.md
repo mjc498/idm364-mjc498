@@ -19,4 +19,4 @@ Created and maintained by me.
 
 ## Contact 
 - [LinkedIn](https://www.linkedin.com/in/maria-louisa-ching/)
-- - [Email](mailto:mjc498@drexel.edu)
+- [Email](mailto:mjc498@drexel.edu)
