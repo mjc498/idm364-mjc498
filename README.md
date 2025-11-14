@@ -1,38 +1,22 @@
-# sv
+# Erase with Taste 
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## Description 
+This is my e-commerce website, created to showcase my design skills, front-end development skills, and back-end development skills. It serves as a deliverable for IDM364: Interactive App Design IV's Final Project. 
 
-## Creating a project
+## Installation & Access 
+You can access the live website [here](#) *(currently under construction).* Alternatively, explore the project files directly in this GitHub repository. 
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Features
+- 🏡 **Home** – See what "Erase with Taste" has to offer
+- ❓ **FAQ** – Discover frequently asked questions that you might have 
 
-```sh
-# create a new project in the current directory
-npx sv create
+## Skills Utilized
+- **Languages & Tools**: HTML5, CSS3, JavaScript, SvelteKit5, Supabase, MySQL
+- **Design Software**: Figma, Adobe Illustrator
 
-# create a new project in my-app
-npx sv create my-app
-```
+## Credits 
+Created and maintained by me. 
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## Contact 
+- [LinkedIn](https://www.linkedin.com/in/maria-louisa-ching/)
+- [Email](mailto:mjc498@drexel.edu)
