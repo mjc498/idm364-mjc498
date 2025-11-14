@@ -30,12 +30,10 @@
 </script>
 
 <main class="container">
-  <!-- Breadcrumb -->
   <nav class="breadcrumb">
     <a href="/">Home</a> > You are here!
   </nav>
 
-  <!-- Header Section -->
   <div class="header">
     <h1>Our Erasers</h1>
     
@@ -44,7 +42,7 @@
         <label for="browse">Browse by:</label>
         <select id="browse" bind:value={browseBy}>
           <option value="ALL">ALL</option>
-          <option value="FOOD">FOOD</option>
+          <option value="FRUIT">FRUIT</option>
           <option value="DESSERTS">DESSERTS</option>
         </select>
       </div>
@@ -61,27 +59,25 @@
     </div>
   </div>
 
-  <!-- Loading State -->
   {#if loading}
     <div class="loading">
-      <p>Loading products...</p>
+      <p>Loading...</p>
     </div>
   
-  <!-- Error State -->
+  <!-- consider 404 design -->
   {:else if error}
     <div class="error-message">
-      <p>⚠️ Error loading products:</p>
+      <p>Error loading products:</p>
       <p>{error}</p>
     </div>
   
-  <!-- Products Grid -->
   {:else if products.length > 0}
     <div class="products-grid">
       {#each products as product}
         <div class="product-card">
           <div class="product-image">
             <img 
-              src={product.image_url || '/images/placeholder.png'} 
+              src={product.image_url || '/images/favicon.png'} 
               alt={product.name}
             />
           </div>
@@ -93,45 +89,36 @@
       {/each}
     </div>
   
-  <!-- Empty State -->
   {:else}
     <div class="empty-state">
-      <p>No products found yet.</p>
-      <p>Add some products to your Supabase table!</p>
+      <p>No products found.</p>
     </div>
   {/if}
 </main>
 
 <style>
   :global(body) {
-    background-color: #F5F5F5;
+    background-color: #FAFAFA;
     margin: 0;
     padding: 0;
   }
 
   .container {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
   }
 
-  /* Breadcrumb */
   .breadcrumb {
     font-size: 14px;
-    color: #666;
-    margin-bottom: 2rem;
+    color: #333333;
+    margin-bottom: 29px;
   }
 
   .breadcrumb a {
-    color: #666;
     text-decoration: none;
   }
 
-  .breadcrumb a:hover {
-    text-decoration: underline;
-  }
-
-  /* Header */
   .header {
     display: flex;
     justify-content: space-between;
@@ -145,11 +132,10 @@
     font-family: 'Nunito', sans-serif;
     font-size: 48px;
     font-weight: 700;
-    color: #333;
+    color: #333333;
     margin: 0;
   }
 
-  /* Filters */
   .filters {
     display: flex;
     gap: 2rem;
@@ -165,26 +151,24 @@
   .filter-group label {
     font-family: 'Nunito', sans-serif;
     font-size: 14px;
-    font-weight: 600;
-    color: #333;
+    font-weight: 400;
+    color: #333333;
   }
 
   select {
     font-family: 'Nunito', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    color: #333;
+    font-size: 16px;
+    font-weight: 400;
+    color: #333333;
     background-color: transparent;
     border: none;
     cursor: pointer;
-    padding: 0.25rem;
   }
 
   select:focus {
     outline: none;
   }
 
-  /* Products Grid */
   .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -192,13 +176,13 @@
     margin-bottom: 3rem;
   }
 
-  /* Product Card */
   .product-card {
-    background: white;
-    border-radius: 8px;
+    background: #FAFAFA;
+    border-radius: 10px;
     overflow: hidden;
-    transition: transform 0.2s ease;
     cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
   }
 
   .product-card:hover {
@@ -218,30 +202,30 @@
   .product-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: fill;
+    padding: 55px;
   }
 
   .product-info {
-    padding: 1rem;
+    padding: 12px;
   }
 
   .product-name {
     font-family: 'Nunito', sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
+    font-size: 20px;
+    font-weight: 700;
+    color: #333333;
     margin: 0 0 0.5rem 0;
   }
 
   .product-price {
     font-family: 'Nunito', sans-serif;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 400;
-    color: #666;
+    color: #333333;
     margin: 0;
   }
 
-  /* States */
   .loading,
   .error-message,
   .empty-state {
@@ -251,10 +235,9 @@
   }
 
   .error-message {
-    color: #d32f2f;
+    color: #FFB0B0;
   }
 
-  /* Responsive */
   @media (max-width: 768px) {
     .container {
       padding: 1rem;
