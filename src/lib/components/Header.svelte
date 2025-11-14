@@ -1,6 +1,6 @@
 <script>
-	import { page } from '$app/stores';
-  </script>
+	import { page } from '$app/state';
+</script>
   
   <nav class="navbar">
 	<div class="nav-container">
@@ -9,8 +9,8 @@
 	  </a>
 	  
 	  <div class="nav-links">
-		<a href="/" class:active={$page.url.pathname === '/'}>Home</a>
-		<a href="/faq" class:active={$page.url.pathname === '/faq'}>FAQ</a>
+		<a href="/" class:active={page.url.pathname === '/'}>Home</a>
+		<a href="/faq" class:active={page.url.pathname === '/faq'}>FAQ</a>
 	  </div>
 	  
 	  <div class="nav-icons">

@@ -2,9 +2,9 @@
     import { supabase } from '$lib/supabaseClient'
     import { onMount } from 'svelte'
   
-    let products = []
-    let loading = true
-    let error = null
+    let products = $state([])
+    let loading = $state(true)
+    let error = $state(null)
   
     onMount(async () => {
       try {
