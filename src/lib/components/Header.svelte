@@ -1,6 +1,6 @@
 <script>
-	import { page } from '$app/state';
-</script>
+	import { page } from '$app/stores';
+  </script>
   
   <nav class="navbar">
 	<div class="nav-container">
@@ -9,35 +9,22 @@
 	  </a>
 	  
 	  <div class="nav-links">
-		<a href="/" class:active={page.url.pathname === '/'}>Home</a>
-		<a href="/faq" class:active={page.url.pathname === '/faq'}>FAQ</a>
+		<a href="/" class:active={$page.url.pathname === '/'}>Home</a>
+		<a href="/faq" class:active={$page.url.pathname === '/faq'}>FAQ</a>
 	  </div>
 	  
 	  <div class="nav-icons">
-		<!-- Search -->
 		<button class="icon-btn" aria-label="Search">
-		  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-			<circle cx="11" cy="11" r="8"/>
-			<path d="m21 21-4.35-4.35"/>
-		  </svg>
+		  <img src="/images/search.png" alt="search" class="icon" />
 		</button>
 		
-		<!-- Account -->
-		<a href="/account" class="icon-btn" aria-label="Account">
-		  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-			<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-			<circle cx="12" cy="7" r="4"/>
-		  </svg>
-		</a>
+		<button class="icon-btn" aria-label="Profile">
+			<img src="/images/profile.png" alt="profile" class="icon" />
+		</button>
 		
-		<!-- Cart -->
-		<a href="/cart" class="icon-btn" aria-label="Cart">
-		  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-			<circle cx="9" cy="21" r="1"/>
-			<circle cx="20" cy="21" r="1"/>
-			<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-		  </svg>
-		</a>
+		<button class="icon-btn" aria-label="Cart">
+			<img src="/images/cart.png" alt="cart" class="icon" />
+		</button>
 	  </div>
 	</div>
   </nav>
@@ -101,6 +88,12 @@
 	  transition: opacity 0.2s;
 	  text-decoration: none;
 	}
+  
+	.icon {
+	  width: 18px;
+	  height: 20px;
+	  display: block;
+	}
 	
 	@media (max-width: 768px) {
 	  .nav-container {
@@ -108,8 +101,9 @@
 	  }
 	  
 	  .nav-links {
-		position: static;
-		transform: none;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
 		gap: 1.5rem;
 	  }
 	  
