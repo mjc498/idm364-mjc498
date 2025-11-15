@@ -1,6 +1,7 @@
 <script>
   import { supabase } from '$lib/supabaseClient'
   import { onMount } from 'svelte'
+  import Hero from '$lib/components/Hero.svelte'
 
   let products = $state([])
   let loading = $state(true)
@@ -29,6 +30,7 @@
   })
 </script>
 
+<Hero />
 <main class="container">
   <nav class="breadcrumb">
     <a href="/">Home</a> > You are here!
