@@ -18,14 +18,10 @@
   </script>
   
   <svelte:head>
-    <title>{product.name} - Maria-Louisa Ching</title>
+    <title>{product.name} - Erase with Taste</title>
   </svelte:head>
   
-  <main class="container">
-    <nav class="breadcrumb">
-      <a href="/">Home</a> > <a href="/">Products</a> > {product.name}
-    </nav>
-  
+  <main class="container">  
     <div class="product-detail">
       <div class="product-image">
         <img 
@@ -196,11 +192,13 @@
       align-items: center;
       justify-content: center;
       padding: 2rem;
+      height: auto;
+      width: 606px;
     }
   
     .product-image img {
-      width: 100%;
-      height: 100%;
+      height: auto;
+      width: 510px;
       object-fit: contain;
     }
   
