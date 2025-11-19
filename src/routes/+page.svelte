@@ -1,3 +1,4 @@
+
 <script>
   import { supabase } from '$lib/supabaseClient'
   import { onMount } from 'svelte'
@@ -28,6 +29,28 @@
       loading = false
     }
   })
+
+  $effect(() => {
+  })
+
+  function getFilteredProducts() {
+    let filtered = products
+    
+    if (browseBy !== 'ALL') {
+      filtered = filtered.filter(p => p.category === browseBy)
+    }
+    
+    switch(sortBy) {
+      case 'PRICE_LOW':
+        return [...filtered].sort((a, b) => a.price - b.price)
+      case 'PRICE_HIGH':
+        return [...filtered].sort((a, b) => b.price - a.price)
+      case 'NAME':
+        return [...filtered].sort((a, b) => a.name.localeCompare(b.name))
+      default: // FEATURED
+        return filtered
+    }
+  }
 </script>
 
 <Hero />
@@ -66,17 +89,16 @@
       <p>Loading...</p>
     </div>
   
-  <!-- consider 404 design -->
   {:else if error}
     <div class="error-message">
       <p>Error loading products:</p>
       <p>{error}</p>
     </div>
   
-  {:else if products.length > 0}
+  {:else if getFilteredProducts().length > 0}
     <div class="products-grid">
-      {#each products as product}
-        <div class="product-card">
+      {#each getFilteredProducts() as product}
+        <a href="/products/{product.id}" class="product-card">
           <div class="product-image">
             <img 
               src={product.image_url || '/images/favicon.png'} 
@@ -87,7 +109,7 @@
             <h3 class="product-name">{product.name}</h3>
             <p class="product-price">${product.price?.toFixed(2) || '0.00'}</p>
           </div>
-        </div>
+        </a>
       {/each}
     </div>
   
@@ -119,6 +141,7 @@
 
   .breadcrumb a {
     text-decoration: none;
+    color: #333333;
   }
 
   .header {
@@ -184,11 +207,14 @@
     overflow: hidden;
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    text-decoration: none;
+    display: block;
   }
 
   .product-card:hover {
     transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
 
   .product-image {
@@ -237,7 +263,7 @@
   }
 
   .error-message {
-    color: #FFB0B0;
+    color: #d32f2f;
   }
 
   @media (max-width: 768px) {
