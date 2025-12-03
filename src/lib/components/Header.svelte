@@ -22,9 +22,9 @@
 			<img src="/images/profile.png" alt="profile" class="icon" />
 		</button>
 		
-		<button class="icon-btn" aria-label="Cart">
+		<a href="/cart" class="icon-btn" aria-label="Cart">
 			<img src="/images/cart.png" alt="cart" class="icon" />
-		</button>
+		</a>
 	  </div>
 	</div>
   </nav>

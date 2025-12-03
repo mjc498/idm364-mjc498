@@ -1,14 +1,15 @@
 <script>
-  let { data } = $props()
+  import { cart } from '$lib/stores/cartStore'
 
+  let { data } = $props()
   let quantity = $state(1)
   let activeTab = $state('reviews')
-
   let product = $derived(data.product)
   let relatedProducts = $derived(data.relatedProducts)
 
   function addToCart() {
-    alert(`Added ${quantity} "${product.name} to cart!`)
+    cart.addItem(product, quantity)
+    alert(`Added ${quantity} "${product.name}" to cart!`)
   }
 
   function calculateTotalPrice() {
@@ -212,7 +213,7 @@
 
   .product-image img {
     height: 315px;
-    align-self: stretch;
+    align-self: fit;
     aspect-ratio: 170/159;
   }
 
