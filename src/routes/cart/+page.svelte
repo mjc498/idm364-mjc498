@@ -1,5 +1,6 @@
 <script>
   import { cart } from '$lib/stores/cartStore'
+  import { goto } from '$app/navigation'
   
   let cartItems = $state([])
   
@@ -19,6 +20,14 @@
   
   function removeItem(productId) {
     cart.removeItem(productId)
+  }
+
+  function handleCheckout() {
+    if (cartItems.length === 0) {
+      alert('Your cart is empty. Please add items before checking out.');
+      return;
+    }
+    goto('/payment');
   }
 </script>
 
@@ -87,7 +96,7 @@
 
         <div class="cart-actions">
           <a href="/" class="keep-shopping-btn">Keep Shopping</a>
-          <button class="checkout-btn">Checkout</button>
+          <button class="checkout-btn" onclick={handleCheckout}>Checkout</button>
         </div>
       </div>
     </div>
@@ -284,7 +293,7 @@
 
   .subtotal-label {
     font-family: 'Nunito', sans-serif;
-    font-size: px;
+    font-size: 20px;
     font-weight: 700;
     color: #333;
     margin: 0;
