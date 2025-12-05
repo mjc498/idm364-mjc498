@@ -6,6 +6,7 @@
 	let cartItems = $state([]);
 	let shipping = $state(2.25);
 
+	// Use $derived for calculated values
 	let subtotal = $derived(
 		cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
 	);
@@ -16,19 +17,24 @@
 	let cvc = $state('');
 	let country = $state('');
 	let postalCode = $state('');
+	let showModal = $state(false);
 
+	// Subscribe to cart store
 	cart.subscribe(items => {
 		cartItems = items;
 	});
 
 	onMount(() => {
+		// If no cart items, redirect to cart page
 		if (cartItems.length === 0) {
 			goto('/cart');
 		}
 	});
 
 	function formatCardNumber(value) {
+		// Remove all non-digits
 		const digits = value.replace(/\D/g, '');
+		// Add space every 4 digits
 		return digits.replace(/(\d{4})/g, '$1 ').trim();
 	}
 
@@ -38,7 +44,9 @@
 	}
 
 	function formatExpirationDate(value) {
+		// Remove all non-digits
 		const digits = value.replace(/\D/g, '');
+		// Add slash after 2 digits
 		if (digits.length >= 2) {
 			return digits.slice(0, 2) + '/' + digits.slice(2, 4);
 		}
@@ -51,12 +59,19 @@
 	}
 
 	function handlePayment() {
+		// Validate all fields
 		if (!cardNumber || !expirationDate || !cvc || !country || !postalCode) {
 			alert('Please fill in all fields');
 			return;
 		}
 
-		alert('Payment processed successfully!');
+		// Show the modal
+		showModal = true;
+	}
+
+	function closeModal() {
+		showModal = false;
+		// Clear cart using the store method
 		cart.clearCart();
 		goto('/');
 	}
@@ -67,13 +82,16 @@
 </svelte:head>
 
 <main class="payment-container">
+	<!-- Header -->
 	<nav class="breadcrumb">
 		<a href="/cart">Cart</a> > You are here!
 	</nav>
 
 	<h1 class="title">Payment</h1>
 
+	<!-- Main Content -->
 	<div class="content-wrapper">
+		<!-- Left Section: Payment Form -->
 		<div class="payment-form">
 			<div class="form-group">
 				<label for="cardNumber">Card Number</label>
@@ -147,8 +165,10 @@
 			</button>
 		</div>
 
+		<!-- Pink Divider -->
 		<div class="divider"></div>
 
+		<!-- Right Section: Order Summary -->
 		<div class="order-summary">
 			{#each cartItems as item}
 				<div class="product-item">
@@ -181,6 +201,24 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Modal Overlay and Modal -->
+	{#if showModal}
+		<div 
+			class="modal-overlay" 
+			onclick={closeModal}
+			onkeydown={(e) => e.key === 'Escape' && closeModal()}
+			role="button"
+			tabindex="0"
+			aria-label="Close modal"
+		></div>
+		<div class="modal">
+			<img src="/images/minions.gif" alt="Success" class="modal-image" />
+			<h2 class="modal-title">Your order has been placed!</h2>
+			<p class="modal-message">Thank you!</p>
+			<button class="modal-button" onclick={closeModal}>Go Home</button>
+		</div>
+	{/if}
 </main>
 
 <style>
@@ -222,6 +260,7 @@
 		color: #333;
 		margin: 0;
 		align-self: flex-start;
+		width: 100%;
 	}
 
 	.content-wrapper {
@@ -249,22 +288,20 @@
 
 	label {
 		font-family: 'Nunito', sans-serif;
-		font-size: 18px;
-		font-weight: 700;
+		font-size: 14px;
+		font-weight: 500;
 		color: #333;
 	}
 
 	input {
 		width: 100%;
-		padding: 10px 12px;
-		font-size: 16px;
-		border: 2px solid #CACACA80;
-		border-radius: 6px;
+		padding: 12px 16px;
+		font-size: 14px;
+		border: 1px solid #d1d5db;
+		border-radius: 8px;
 		font-family: 'Nunito', sans-serif;
 		transition: border-color 0.2s;
 		box-sizing: border-box;
-		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.07);
-		margin-bottom: 20px;
 	}
 
 	input:focus {
@@ -284,11 +321,11 @@
 	.card-logos {
 		position: absolute;
 		right: 12px;
-		top: 35%;
+		top: 50%;
 		transform: translateY(-50%);
 		display: flex;
-		gap: 4px;
-		align-items: flex-start;
+		gap: 6px;
+		align-items: center;
 	}
 
 	.card-logos img {
@@ -308,7 +345,7 @@
 
 	.pay-button {
 		width: 100%;
-		padding: 12px 28px;
+		padding: 14px 24px;
 		background-color: #8B4513;
 		color: #FAFAFA;
 		border: none;
@@ -343,8 +380,9 @@
 	.product-item {
 		display: flex;
 		align-items: flex-start;
-		gap: 36px;
+		gap: 20px;
 		width: 100%;
+		padding: 20px;
 	}
 
 	.product-image-wrapper {
@@ -383,7 +421,7 @@
 		align-items: center;
 		justify-content: center;
 		font-family: 'Nunito', sans-serif;
-		font-size: 14px;
+		font-size: 20px;
 		font-weight: 700;
 	}
 
@@ -415,14 +453,14 @@
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-		gap: 15px;
+		gap: 16px;
 	}
 
 	.summary-row {
 		display: flex;
 		justify-content: space-between;
 		font-family: 'Nunito', sans-serif;
-		font-size: 20px;
+		font-size: 18px;
 		color: #333;
 	}
 
@@ -431,6 +469,78 @@
 		font-size: 20px;
 		padding-top: 16px;
 		border-top: 1px solid #FFB0B0;
+	}
+
+	.modal-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: #CACACA80;
+		backdrop-filter: blur(4px);
+		z-index: 999;
+		cursor: pointer;
+	}
+
+	.modal {
+		display: flex;
+		width: 500px;
+		padding-bottom: 24px;
+		flex-direction: column;
+		align-items: center;
+		gap: 16px;
+		position: fixed;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		border-radius: 12px;
+		background: #FAFAFA;
+		z-index: 1000;
+		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+	}
+
+	.modal-image {
+		width: 500px;
+		height: 260px;
+		border-radius: 12px 12px 0 0;
+	}
+
+	.modal-title {
+		font-family: 'Fredoka One', sans-serif;
+		font-size: 32px;
+		font-weight: 400;
+		color: #333;
+		margin: 0;
+		text-align: center;
+	}
+
+	.modal-message {
+		font-family: 'Nunito', sans-serif;
+		font-size: 18px;
+		color: #666;
+		text-align: center;
+		margin: 0;
+		padding: 0 20px;
+	}
+
+	.modal-button {
+		background-color: #8B4513;
+		color: #FAFAFA;
+		border: none;
+		padding: 9px 24px;
+		border-radius: 6px;
+		font-family: 'Nunito', sans-serif;
+		font-size: 20px;
+		font-weight: 700;
+		cursor: pointer;
+		transition: background-color 0.3s;
+		margin-top: 8px;
+		width: 420px;
+	}
+
+	.modal-button:hover {
+		background-color: #6d3410;
 	}
 
 	@media (max-width: 1280px) {
@@ -464,6 +574,25 @@
 		.payment-form,
 		.order-summary {
 			max-width: 100%;
+		}
+	}
+
+	@media (max-width: 600px) {
+		.modal {
+			width: 90%;
+			max-width: 400px;
+		}
+
+		.modal-image {
+			width: 150px;
+		}
+
+		.modal-title {
+			font-size: 24px;
+		}
+
+		.modal-message {
+			font-size: 16px;
 		}
 	}
 </style>
