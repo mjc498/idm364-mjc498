@@ -65,25 +65,23 @@
             </div>
           </div>
 
-          <div class="item-values-row">
-            <div class="item-price">
-              ${item.price.toFixed(2)}
-            </div>
+          <div class="item-price">
+            ${item.price.toFixed(2)}
+          </div>
 
-            <div class="item-quantity">
-              <select 
-                value={item.quantity}
-                onchange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
-              >
-                {#each Array(10) as _, i}
-                  <option value={i + 1}>{i + 1}</option>
-                {/each}
-              </select>
-            </div>
+          <div class="item-quantity">
+            <select 
+              value={item.quantity}
+              onchange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
+            >
+              {#each Array(10) as _, i}
+                <option value={i + 1}>{i + 1}</option>
+              {/each}
+            </select>
+          </div>
 
-            <div class="item-total">
-              ${(item.price * item.quantity).toFixed(2)}
-            </div>
+          <div class="item-total">
+            ${(item.price * item.quantity).toFixed(2)}
           </div>
         </div>
       {/each}
@@ -179,9 +177,9 @@
 
   .cart-item {
     display: grid;
-    grid-template-columns: 2fr 3fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 24px;
-    align-items: start;
+    align-items: center;
     padding: 24px 0;
     border-bottom: 1px solid #FFB0B0;
   }
@@ -253,16 +251,6 @@
     font-weight: 700;
     color: #333;
     text-align: center;
-  }
-
-  .item-values-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 24px;
-    padding-top: 0;
-    margin-left: 83px;
-    width: 600px;
-    align-items: center;
   }
 
   .item-quantity {
