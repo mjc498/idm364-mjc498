@@ -1,8 +1,29 @@
 <script>
 	import { page } from '$app/stores';
+	import LoginModal from '$lib/components/LoginModal.svelte';
+	import SignUpModal from '$lib/components/SignUpModal.svelte';
 	
 	// Using $derived for reactive pathname check (SvelteKit 5 pattern)
 	let currentPath = $derived($page.url.pathname);
+	
+	// Using $state for modal visibility (SvelteKit 5 pattern)
+	let showLoginModal = $state(false);
+	let showSignUpModal = $state(false);
+
+	function openLoginModal() {
+		showLoginModal = true;
+		showSignUpModal = false;
+	}
+
+	function openSignUpModal() {
+		showSignUpModal = true;
+		showLoginModal = false;
+	}
+
+	function closeModals() {
+		showLoginModal = false;
+		showSignUpModal = false;
+	}
 </script>
 
 <nav class="navbar">
@@ -21,7 +42,7 @@
 				<img src="/images/search.png" alt="search" class="icon" />
 			</button>
 			
-			<button class="icon-btn" aria-label="Profile">
+			<button class="icon-btn" aria-label="Profile" onclick={openLoginModal}>
 				<img src="/images/profile.png" alt="profile" class="icon" />
 			</button>
 			
@@ -31,6 +52,14 @@
 		</div>
 	</div>
 </nav>
+
+{#if showLoginModal}
+	<LoginModal onClose={closeModals} onSwitchToSignup={openSignUpModal} />
+{/if}
+
+{#if showSignUpModal}
+	<SignUpModal onClose={closeModals} onSwitchToLogin={openLoginModal} />
+{/if}
 
 <style>
 	.navbar {
@@ -78,6 +107,14 @@
 		transition: opacity 0.2s;
 	}
 	
+	.nav-links a:hover {
+		opacity: 0.7;
+	}
+	
+	.nav-links a.active {
+		text-decoration: underline;
+	}
+	
 	.nav-icons {
 		display: flex;
 		gap: 20px;
@@ -95,6 +132,10 @@
 		justify-content: center;
 		transition: opacity 0.2s;
 		text-decoration: none;
+	}
+	
+	.icon-btn:hover {
+		opacity: 0.7;
 	}
 
 	.icon {
