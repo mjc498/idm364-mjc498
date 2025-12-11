@@ -1,11 +1,12 @@
-<section class="hero">
+<main class="hero">
     <div class="hero-content">
         <h1>Erase with Taste.</h1>
         <p>Discover our collection of food erasers that look good enough to eat! From pizza to cake, our novelty erasers make perfect gifts, desk accessories, and conversation starters. Functional art that actually works.</p>
     </div>
 
     <div class="hero-icon">
-        <svg viewBox="0 0 200 200" class="icon-svg">
+        <svg viewBox="0 0 200 200" class="icon-svg" role="img" aria-label="Decorative rotating badge">
+            <title>Erase with Taste decorative badge</title>
             <circle
                 cx="100"
                 cy="100"
@@ -36,7 +37,7 @@
             />
         </svg>
     </div>
-</section>
+</main>
 
 <style>
     .hero {
@@ -56,7 +57,7 @@
     }
 
     h1 {
-        font-family: 'Fredoka', sans-serif;
+        font-family: 'Fredoka One', sans-serif;
         font-size: 96px;
         color: #333333;
         margin: 0 0 16px 0;
