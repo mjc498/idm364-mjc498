@@ -7,9 +7,9 @@
       disabled = false,
       ...restProps
     } = $props();
-  </script>
+</script>
   
-  <button
+<button
     {type}
     {disabled}
     onclick={onclick}
@@ -18,9 +18,9 @@
     {...restProps}
   >
     {@render children()}
-  </button>
+</button>
   
-  <style>
+<style>
     .btn {
       font-family: 'Nunito', sans-serif;
       font-size: 20px;
@@ -51,4 +51,4 @@
     .full-width {
       width: 100%;
     }
-  </style>
+</style>

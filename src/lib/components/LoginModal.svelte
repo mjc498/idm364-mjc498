@@ -5,7 +5,7 @@
 	let rememberMe = $state(false);
 
 	function handleLogin() {
-		console.log('Login:', { username, password, rememberMe });
+		console.log('Log in:', { username, password, rememberMe });
 		onClose();
 	}
 
