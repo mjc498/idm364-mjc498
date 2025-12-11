@@ -1,3 +1,4 @@
+<svelte:options runes={true} />
 <main class="hero">
     <div class="hero-content">
         <h1>Erase with Taste.</h1>

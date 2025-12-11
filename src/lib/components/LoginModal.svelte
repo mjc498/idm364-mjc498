@@ -1,12 +1,10 @@
 <script>
 	let { onClose = () => {}, onSwitchToSignup = () => {} } = $props();
-	
 	let username = $state('');
 	let password = $state('');
 	let rememberMe = $state(false);
 
 	function handleLogin() {
-		// Handle login logic here
 		console.log('Login:', { username, password, rememberMe });
 		onClose();
 	}
@@ -16,19 +14,38 @@
 			onClose();
 		}
 	}
+
+	function handleKeydown(e) {
+		if (e.key === 'Escape') {
+			onClose();
+		}
+	}
+
+	function handleSubmit(e) {
+		e.preventDefault();
+		handleLogin();
+	}
+
+	import { onMount } from 'svelte';
+	onMount(() => {
+		document.body.style.overflow = 'hidden';
+		return () => {
+			document.body.style.overflow = '';
+		};
+	});
 </script>
 
 <div 
 	class="modal-overlay" 
 	onclick={handleOverlayClick}
-	onkeydown={(e) => e.key === 'Escape' && onClose()}
+	onkeydown={handleKeydown}
 	role="button"
 	tabindex="0"
 	aria-label="Close modal"
 >
 	<div class="modal-container">
 		<button class="close-btn" onclick={onClose} aria-label="Close">
-			<img src="/images/exit.svg" alt="Close" />
+			<img src="/images/close.svg" alt="" />
 		</button>
 
 		<h2 class="modal-title">Log In</h2>
@@ -36,7 +53,7 @@
 			Don't have an account yet? <button type="button" class="signup-link" onclick={onSwitchToSignup}>Sign up!</button>
 		</p>
 
-		<form class="login-form" onsubmit={(e) => { e.preventDefault(); handleLogin(); }}>
+		<form class="login-form" onsubmit={handleSubmit}>
 			<div class="input-group">
 				<input
 					type="text"
@@ -117,12 +134,6 @@
 
 	.close-btn:hover {
 		opacity: 0.7;
-	}
-
-	.close-btn img {
-		width: 18px;
-		height: 18px;
-		display: block;
 	}
 
 	.modal-title {

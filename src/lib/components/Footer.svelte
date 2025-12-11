@@ -1,5 +1,5 @@
 <script>
-  const year = new Date().getFullYear();
+  let year = $state(new Date().getFullYear());
 </script>
 
 <footer class="footer">
