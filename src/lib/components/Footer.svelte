@@ -5,7 +5,7 @@
 <footer class="footer">
   <div class="footer-container">
     <div class="footer-top">
-      <img src="/images/favicon_pink.png" alt="pink footer logo" class="footer-logo" />
+      <img src="/images/favicon_pink.png" alt="Pink footer logo" class="footer-logo" />
       <nav class="footer-nav">
         <p>Shipping</p>
         <p>Returns</p>
@@ -18,17 +18,17 @@
 
     <div class="footer-bottom">
       <div class="footer-payments">
-        <img src="/images/mastercard.png" alt="mastercard logo"/>
-        <img src="/images/paypal.png" alt="paypal logo"/>
-        <img src="/images/googlepay.png" alt="google pay logo"/>
-        <img src="/images/visa.png" alt="visa logo"/>
-        <img src="/images/applepay.png" alt="apple pay logo"/>
+        <img src="/images/mastercard.png" alt=""/>
+        <img src="/images/paypal.png" alt=""/>
+        <img src="/images/googlepay.png" alt=""/>
+        <img src="/images/visa.png" alt=""/>
+        <img src="/images/applepay.png" alt=""/>
       </div>
 
       <p class="footer-copy">© {year} Maria-Louisa Ching</p>
 
       <div class="footer-lang">
-        <span><img src="/images/usa.png" alt="usa flag" class="flag-icon" /> English</span>      
+        <span><img src="/images/usa.png" alt="USA flag" class="flag-icon" /> English</span>      
         <span>USD</span>
       </div>
     </div>
