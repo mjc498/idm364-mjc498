@@ -4,21 +4,21 @@
 	import SignupModal from '$lib/components/SignupModal.svelte';
 	
 	let showLoginModal = $state(false);
-	let showSignUpModal = $state(false);
+	let showSignupModal = $state(false);
 
 	function openLoginModal() {
 		showLoginModal = true;
-		showSignUpModal = false;
+		showSignupModal = false;
 	}
 
-	function openSignUpModal() {
-		showSignUpModal = true;
+	function openSignupModal() {
+		showSignupModal = true;
 		showLoginModal = false;
 	}
 
 	function closeModals() {
 		showLoginModal = false;
-		showSignUpModal = false;
+		showSignupModal = false;
 	}
 </script>
 
@@ -50,11 +50,11 @@
 </nav>
 
 {#if showLoginModal}
-	<LoginModal onClose={closeModals} onSwitchToSignup={openSignUpModal} />
+	<LoginModal onClose={closeModals} onSwitchToSignup={openSignupModal} />
 {/if}
 
-{#if showSignUpModal}
-	<SignUpModal onClose={closeModals} onSwitchToLogin={openLoginModal} />
+{#if showSignupModal}
+	<SignupModal onClose={closeModals} onSwitchToLogin={openLoginModal} />
 {/if}
 
 <style>
