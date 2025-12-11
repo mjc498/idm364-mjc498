@@ -1,80 +1,91 @@
-<script>
+<script>	
 	let openQuestion = $state(null);
-
+  
 	const faqs = [
-		{
-			id: 1,
-			question: "Is this store real?",
-			answer: "No, this store is not real! This is a project I created for a class called Interactive App Design IV. The class required its students create an online shopping store using the framework SvelteKit."
-		},
-		{
-			id: 2,
-			question: "Are the erasers edible?",
-			answer: "No, the erasers are not edible! They are designed to look like delicious fruits but are made of rubber and other materials not meant for consumption. Please do not eat them!"
-		},
-		{
-			id: 3,
-			question: "Do the erasers actually erase?",
-			answer: "Yes! While they look like adorable fruits, these erasers are fully functional and can erase pencil marks effectively. They work just like regular erasers."
-		},
-		{
-			id: 4,
-			question: "Can I get a refund?",
-			answer: "Since this is a demonstration project for a class assignment, no actual transactions occur and therefore refunds are not applicable. This is a portfolio piece showcasing web development skills."
-		},
-		{
-			id: 5,
-			question: "Where is my order?",
-			answer: "As this is a demo store created for educational purposes, no real orders are processed or shipped. This project demonstrates e-commerce functionality and user interface design."
-		},
-		{
-			id: 6,
-			question: "How can I contact you?",
-			answer: "If you'd like to reach out about this project or discuss web development opportunities, please feel free to contact me through my portfolio website or professional social media accounts."
-		}
+	  {
+		id: 1,
+		question: "Is this store real?",
+		answer: "No, this store is not real! This is a project I created for a class called Interactive App Design IV. The class required its students create an online shopping store using the framework SvelteKit."
+	  },
+	  {
+		id: 2,
+		question: "Are the erasers edible?",
+		answer: "No, the erasers are not edible! They are designed to look like delicious fruits but are made of rubber and other materials not meant for consumption. Please do not eat them!"
+	  },
+	  {
+		id: 3,
+		question: "Do the erasers actually erase?",
+		answer: "Yes! While they look like adorable fruits, these erasers are fully functional and can erase pencil marks effectively. They work just like regular erasers."
+	  },
+	  {
+		id: 4,
+		question: "Can I get a refund?",
+		answer: "Since this is a demonstration project for a class assignment, no actual transactions occur and therefore refunds are not applicable. This is a portfolio piece showcasing web development skills."
+	  },
+	  {
+		id: 5,
+		question: "Where is my order?",
+		answer: "As this is a demo store created for educational purposes, no real orders are processed or shipped. This project demonstrates e-commerce functionality and user interface design."
+	  },
+	  {
+		id: 6,
+		question: "How can I contact you?",
+		answer: "If you'd like to reach out about this project or discuss web development opportunities, please feel free to contact me through my portfolio website or professional social media accounts."
+	  }
 	];
-
+  
 	function toggleQuestion(id) {
-		openQuestion = openQuestion === id ? null : id;
+	  openQuestion = openQuestion === id ? null : id;
 	}
-</script>
 
-<svelte:head>
+	import { slide } from 'svelte/transition';
+  </script>
+  
+  <svelte:head>
 	<title>FAQ - Erase with Taste</title>
-</svelte:head>
-
-<main class="faq-container">
+  </svelte:head>
+  
+  <main class="faq-container">
 	<div class="left-section">
-		<h1 class="title">Frequently Asked Questions</h1>
+	  <h1 class="title">Frequently Asked Questions</h1>
 	</div>
-
+  
 	<div class="right-section">
-		<div class="questions-container">
-			{#each faqs as faq}
-				<div class="faq-item">
-					<button 
-						class="question-header"
-						onclick={() => toggleQuestion(faq.id)}
-						aria-expanded={openQuestion === faq.id}
-					>
-						<span class="question-text">{faq.question}</span>
-						<img 
-							src="/images/plus.svg" 
-							alt="Toggle answer" 
-							class="plus-icon"
-							class:rotated={openQuestion === faq.id}
-						/>
-					</button>
-					{#if openQuestion === faq.id}
-						<div class="answer">
-							<p>{faq.answer}</p>
-						</div>
-					{/if}
-				</div>
-			{/each}
-		</div>
+	  <div class="questions-container">
+		{#each faqs as faq}
+		  <div class="faq-item">
+			<button 
+			  class="question-header"
+			  onclick={() => toggleQuestion(faq.id)}
+			  aria-expanded={openQuestion === faq.id}
+			  aria-controls="answer-{faq.id}"
+			  id="question-{faq.id}"
+			>
+			  <span class="question-text">{faq.question}</span>
+			  <img 
+				src="/images/plus.svg" 
+				alt=""
+				aria-hidden="true"
+				class="plus-icon"
+				class:rotated={openQuestion === faq.id}
+			  />
+			</button>
+			{#if openQuestion === faq.id}
+			  <div 
+				class="answer"
+				id="answer-{faq.id}"
+				role="region"
+				aria-labelledby="question-{faq.id}"
+				transition:slide={{ duration: 300 }}
+			  >
+				<p>{faq.answer}</p>
+			  </div>
+			{/if}
+		  </div>
+		{/each}
+	  </div>
 	</div>
-</main>
+  </main>
 
 <style>
 	:global(body) {
@@ -155,7 +166,6 @@
 		width: 20px;
 		height: 20px;
 		transition: transform 0.3s ease;
-		/* flex-shrink: 0; */
 	}
 
 	.plus-icon.rotated {
@@ -165,7 +175,6 @@
 	.answer {
 		width: 100%;
 		padding: 20px 0;
-		animation: slideDown 0.3s ease-out;
 		overflow: hidden;
 	}
 
@@ -177,18 +186,6 @@
 		margin: 0;
 	}
 
-	@keyframes slideDown {
-		from {
-			opacity: 0;
-			max-height: 0;
-		}
-		to {
-			opacity: 1;
-			max-height: 500px;
-		}
-	}
-
-	/* Responsive Design */
 	@media (max-width: 1024px) {
 		.faq-container {
 			flex-direction: column;
