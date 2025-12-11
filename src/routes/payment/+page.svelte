@@ -2,224 +2,208 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { cart } from '$lib/stores/cartStore';
-
-	let cartItems = $state([]);
+  
 	let shipping = $state(2.25);
-
-	// Use $derived for calculated values
 	let subtotal = $derived(
-		cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+	  $cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
 	);
 	let total = $derived(subtotal + shipping);
-
 	let cardNumber = $state('');
 	let expirationDate = $state('');
 	let cvc = $state('');
 	let country = $state('');
 	let postalCode = $state('');
 	let showModal = $state(false);
-
-	// Subscribe to cart store
-	cart.subscribe(items => {
-		cartItems = items;
-	});
-
+  
 	onMount(() => {
-		// If no cart items, redirect to cart page
-		if (cartItems.length === 0) {
-			goto('/cart');
-		}
+	  if ($cart.length === 0) {
+		goto('/cart');
+	  }
 	});
-
+  
 	function formatCardNumber(value) {
-		// Remove all non-digits
-		const digits = value.replace(/\D/g, '');
-		// Add space every 4 digits
-		return digits.replace(/(\d{4})/g, '$1 ').trim();
+	  const digits = value.replace(/\D/g, '');
+	  return digits.replace(/(\d{4})/g, '$1 ').trim();
 	}
-
+  
 	function handleCardNumberInput(e) {
-		const formatted = formatCardNumber(e.target.value);
-		cardNumber = formatted;
+	  cardNumber = formatCardNumber(e.target.value);
 	}
-
+  
 	function formatExpirationDate(value) {
-		// Remove all non-digits
-		const digits = value.replace(/\D/g, '');
-		// Add slash after 2 digits
-		if (digits.length >= 2) {
-			return digits.slice(0, 2) + '/' + digits.slice(2, 4);
-		}
-		return digits;
+	  const digits = value.replace(/\D/g, '');
+	  if (digits.length >= 2) {
+		return digits.slice(0, 2) + '/' + digits.slice(2, 4);
+	  }
+	  return digits;
 	}
-
+  
 	function handleExpirationInput(e) {
-		const formatted = formatExpirationDate(e.target.value);
-		expirationDate = formatted;
+	  expirationDate = formatExpirationDate(e.target.value);
 	}
-
+  
 	function handlePayment() {
-		// Validate all fields
-		if (!cardNumber || !expirationDate || !cvc || !country || !postalCode) {
-			alert('Please fill in all fields');
-			return;
-		}
-
-		// Show the modal
-		showModal = true;
+	  if (!cardNumber || !expirationDate || !cvc || !country || !postalCode) {
+		alert('Please fill in all fields');
+		return;
+	  }
+	  showModal = true;
 	}
-
+  
 	function closeModal() {
-		showModal = false;
-		// Clear cart using the store method
-		cart.clearCart();
-		goto('/');
+	  showModal = false;
+	  cart.clearCart();
+	  goto('/');
 	}
-</script>
-
-<svelte:head>
+  
+	function handleOverlayClick() {
+	  closeModal();
+	}
+  
+	function handleKeydown(e) {
+	  if (e.key === 'Escape') {
+		closeModal();
+	  }
+	}
+  </script>
+  
+  <svelte:head>
 	<title>Payment - Erase with Taste</title>
-</svelte:head>
-
-<main class="payment-container">
-	<!-- Header -->
+  </svelte:head>
+  
+  <main class="payment-container">
 	<nav class="breadcrumb">
-		<a href="/cart">Cart</a> > You are here!
+	  <a href="/cart">Cart</a> > You are here!
 	</nav>
-
+  
 	<h1 class="title">Payment</h1>
-
-	<!-- Main Content -->
+  
 	<div class="content-wrapper">
-		<!-- Left Section: Payment Form -->
-		<div class="payment-form">
-			<div class="form-group">
-				<label for="cardNumber">Card Number</label>
-				<div class="card-input-wrapper">
-					<input
-						type="text"
-						id="cardNumber"
-						placeholder="1234 1234 1234 1234"
-						bind:value={cardNumber}
-						oninput={handleCardNumberInput}
-						maxlength="19"
-					/>
-					<div class="card-logos">
-						<img src="/images/logo-visa.svg" alt="Visa" />
-						<img src="/images/logo-mastercard.svg" alt="Mastercard" />
-						<img src="/images/logo-amex.svg" alt="American Express" />
-						<img src="/images/logo-discover.svg" alt="Discover" />
-					</div>
-				</div>
+	  <div class="payment-form">
+		<div class="form-group">
+		  <label for="cardNumber">Card Number</label>
+		  <div class="card-input-wrapper">
+			<input
+			  type="text"
+			  id="cardNumber"
+			  placeholder="1234 1234 1234 1234"
+			  bind:value={cardNumber}
+			  oninput={handleCardNumberInput}
+			  maxlength="19"
+			/>
+			<div class="card-logos">
+			  <img src="/images/logo-visa.svg" alt="" />
+			  <img src="/images/logo-mastercard.svg" alt="" />
+			  <img src="/images/logo-amex.svg" alt="" />
+			  <img src="/images/logo-discover.svg" alt="" />
 			</div>
-
-			<div class="form-row">
-				<div class="form-group">
-					<label for="expirationDate">Expiration Date</label>
-					<input
-						type="text"
-						id="expirationDate"
-						placeholder="MM/YY"
-						bind:value={expirationDate}
-						oninput={handleExpirationInput}
-						maxlength="5"
-					/>
-				</div>
-
-				<div class="form-group">
-					<label for="cvc">CVC</label>
-					<input
-						type="text"
-						id="cvc"
-						placeholder="123"
-						bind:value={cvc}
-						maxlength="4"
-					/>
-				</div>
-			</div>
-
-			<div class="form-row">
-				<div class="form-group">
-					<label for="country">Country</label>
-					<input
-						type="text"
-						id="country"
-						placeholder="United States"
-						bind:value={country}
-					/>
-				</div>
-
-				<div class="form-group">
-					<label for="postalCode">Postal Code</label>
-					<input
-						type="text"
-						id="postalCode"
-						placeholder="12345"
-						bind:value={postalCode}
-					/>
-				</div>
-			</div>
-
-			<button class="pay-button" onclick={handlePayment}>
-				Pay Now
-			</button>
+		  </div>
 		</div>
-
-		<!-- Pink Divider -->
-		<div class="divider"></div>
-
-		<!-- Right Section: Order Summary -->
-		<div class="order-summary">
-			{#each cartItems as item}
-				<div class="product-item">
-					<div class="product-image-wrapper">
-						<div class="product-image-container">
-							<img src={item.image_url || '/images/favicon.png'} alt={item.name} class="product-image" />
-						</div>
-						<span class="quantity-badge">{item.quantity}</span>
-					</div>
-					<div class="product-details">
-						<h3 class="product-name">{item.name}</h3>
-						<p class="product-price">${item.price.toFixed(2)}</p>
-					</div>
-				</div>
-			{/each}
-
-			<div class="summary-details">
-				<div class="summary-row">
-					<span>Subtotal</span>
-					<span>${subtotal.toFixed(2)}</span>
-				</div>
-				<div class="summary-row">
-					<span>Shipping</span>
-					<span>${shipping.toFixed(2)}</span>
-				</div>
-				<div class="summary-row total-row">
-					<span>Total</span>
-					<span>${total.toFixed(2)}</span>
-				</div>
-			</div>
+  
+		<div class="form-row">
+		  <div class="form-group">
+			<label for="expirationDate">Expiration Date</label>
+			<input
+			  type="text"
+			  id="expirationDate"
+			  placeholder="MM/YY"
+			  bind:value={expirationDate}
+			  oninput={handleExpirationInput}
+			  maxlength="5"
+			/>
+		  </div>
+  
+		  <div class="form-group">
+			<label for="cvc">CVC</label>
+			<input
+			  type="text"
+			  id="cvc"
+			  placeholder="123"
+			  bind:value={cvc}
+			  maxlength="4"
+			/>
+		  </div>
 		</div>
+  
+		<div class="form-row">
+		  <div class="form-group">
+			<label for="country">Country</label>
+			<input
+			  type="text"
+			  id="country"
+			  placeholder="United States"
+			  bind:value={country}
+			/>
+		  </div>
+  
+		  <div class="form-group">
+			<label for="postalCode">Postal Code</label>
+			<input
+			  type="text"
+			  id="postalCode"
+			  placeholder="12345"
+			  bind:value={postalCode}
+			/>
+		  </div>
+		</div>
+  
+		<button class="pay-button" onclick={handlePayment}>
+		  Pay Now
+		</button>
+	  </div>
+  
+	  <div class="divider"></div>
+  
+	  <div class="order-summary">
+		{#each $cart as item}
+		  <div class="product-item">
+			<div class="product-image-wrapper">
+			  <div class="product-image-container">
+				<img src={item.image_url || '/images/favicon.png'} alt={item.name} class="product-image" />
+			  </div>
+			  <span class="quantity-badge">{item.quantity}</span>
+			</div>
+			<div class="product-details">
+			  <h3 class="product-name">{item.name}</h3>
+			  <p class="product-price">${item.price.toFixed(2)}</p>
+			</div>
+		  </div>
+		{/each}
+  
+		<div class="summary-details">
+		  <div class="summary-row">
+			<span>Subtotal</span>
+			<span>${subtotal.toFixed(2)}</span>
+		  </div>
+		  <div class="summary-row">
+			<span>Shipping</span>
+			<span>${shipping.toFixed(2)}</span>
+		  </div>
+		  <div class="summary-row total-row">
+			<span>Total</span>
+			<span>${total.toFixed(2)}</span>
+		  </div>
+		</div>
+	  </div>
 	</div>
-
-	<!-- Modal Overlay and Modal -->
+  
 	{#if showModal}
-		<div 
-			class="modal-overlay" 
-			onclick={closeModal}
-			onkeydown={(e) => e.key === 'Escape' && closeModal()}
-			role="button"
-			tabindex="0"
-			aria-label="Close modal"
-		></div>
-		<div class="modal">
-			<img src="/images/minions.gif" alt="Success" class="modal-image" />
-			<h2 class="modal-title">Your order has been placed!</h2>
-			<p class="modal-message">Thank you!</p>
-			<button class="modal-button" onclick={closeModal}>Go Home</button>
-		</div>
+	  <div 
+		class="modal-overlay" 
+		onclick={handleOverlayClick}
+		onkeydown={handleKeydown}
+		role="button"
+		tabindex="0"
+		aria-label="Close modal"
+	  ></div>
+	  <div class="modal">
+		<img src="/images/minions.gif" alt="" class="modal-image" />
+		<h2 class="modal-title">Your order has been placed!</h2>
+		<p class="modal-message">Thank you!</p>
+		<button class="modal-button" onclick={closeModal}>Go Home</button>
+	  </div>
 	{/if}
-</main>
+  </main>
 
 <style>
 	:global(body) {
@@ -326,11 +310,6 @@
 		display: flex;
 		gap: 6px;
 		align-items: center;
-	}
-
-	.card-logos img {
-		height: 20px;
-		width: auto;
 	}
 
 	.form-row {
