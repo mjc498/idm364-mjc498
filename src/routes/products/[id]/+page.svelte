@@ -12,19 +12,6 @@
     alert(`Added ${quantity} "${product.name}" to cart!`)
   }
 
-  function calculateTotalPrice() {
-    if (!relatedProducts || relatedProducts.length === 0) return product.price
-    return product.price + relatedProducts[0].price
-  }
-
-  function renderStars(rating) {
-    const fullStars = Math.floor(rating)
-    const hasHalfStar = rating % 1 >= 0.5
-    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0)
-    
-    return '★'.repeat(fullStars) + (hasHalfStar ? '½' : '') + '☆'.repeat(emptyStars)
-  }
-
   function getStarDisplay(rating) {
     const stars = []
     const fullStars = Math.floor(rating)

@@ -1,4 +1,3 @@
-
 <script>
   import { supabase } from '$lib/supabaseClient'
   import { onMount } from 'svelte'
@@ -15,39 +14,30 @@
       const { data, error: supabaseError } = await supabase
         .from('products')
         .select('*')
-      
+
       if (supabaseError) {
         error = supabaseError.message
-        console.error('Error fetching products:', supabaseError)
       } else {
         products = data || []
       }
     } catch (err) {
       error = err.message
-      console.error('Error:', err)
     } finally {
       loading = false
     }
   })
 
-  $effect(() => {
-  })
-
   function getFilteredProducts() {
     let filtered = products
-    
-    if (browseBy !== 'ALL') {
-      filtered = filtered.filter(p => p.category === browseBy)
-    }
-    
-    switch(sortBy) {
+
+    switch (sortBy) {
       case 'PRICE_LOW':
         return [...filtered].sort((a, b) => a.price - b.price)
       case 'PRICE_HIGH':
         return [...filtered].sort((a, b) => b.price - a.price)
       case 'NAME':
         return [...filtered].sort((a, b) => a.name.localeCompare(b.name))
-      default: // FEATURED
+      default:
         return filtered
     }
   }
@@ -62,16 +52,7 @@
   <div class="header">
     <h1>Our Erasers</h1>
     
-    <div class="filters">
-      <div class="filter-group">
-        <label for="browse">Browse by:</label>
-        <select id="browse" bind:value={browseBy}>
-          <option value="ALL">ALL</option>
-          <option value="FRUIT">FRUIT</option>
-          <option value="DESSERTS">DESSERTS</option>
-        </select>
-      </div>
-      
+    <div class="filters">      
       <div class="filter-group">
         <label for="sort">Sort by:</label>
         <select id="sort" bind:value={sortBy}>
@@ -135,13 +116,13 @@
 
   .breadcrumb {
     font-size: 14px;
-    color: #333333;
+    color: #333;
     margin-bottom: 29px;
   }
 
   .breadcrumb a {
     text-decoration: none;
-    color: #333333;
+    color: #333;
   }
 
   .header {
@@ -157,7 +138,7 @@
     font-family: 'Nunito', sans-serif;
     font-size: 48px;
     font-weight: 700;
-    color: #333333;
+    color: #333;
     margin: 0;
   }
 
@@ -177,14 +158,14 @@
     font-family: 'Nunito', sans-serif;
     font-size: 14px;
     font-weight: 400;
-    color: #333333;
+    color: #333;
   }
 
   select {
     font-family: 'Nunito', sans-serif;
     font-size: 16px;
     font-weight: 400;
-    color: #333333;
+    color:#333;
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -228,8 +209,8 @@
   }
 
   .product-image img {
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
     object-fit: fill;
     padding: 55px;
   }
@@ -242,7 +223,7 @@
     font-family: 'Nunito', sans-serif;
     font-size: 20px;
     font-weight: 700;
-    color: #333333;
+    color: #333;
     margin: 0 0 0.5rem 0;
   }
 
@@ -250,7 +231,7 @@
     font-family: 'Nunito', sans-serif;
     font-size: 18px;
     font-weight: 400;
-    color: #333333;
+    color: #333;
     margin: 0;
   }
 
