@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/state';
 	import LoginModal from '$lib/components/LoginModal.svelte';
-	import SignUpModal from '$lib/components/SignUpModal.svelte';
+	import SignUpModal from '$lib/components/SignupModal.svelte';
 	
 	let showLoginModal = $state(false);
 	let showSignUpModal = $state(false);
