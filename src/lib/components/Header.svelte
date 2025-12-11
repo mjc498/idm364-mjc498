@@ -1,12 +1,8 @@
 <script>
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import LoginModal from '$lib/components/LoginModal.svelte';
 	import SignUpModal from '$lib/components/SignUpModal.svelte';
 	
-	// Using $derived for reactive pathname check (SvelteKit 5 pattern)
-	let currentPath = $derived($page.url.pathname);
-	
-	// Using $state for modal visibility (SvelteKit 5 pattern)
 	let showLoginModal = $state(false);
 	let showSignUpModal = $state(false);
 
@@ -29,25 +25,25 @@
 <nav class="navbar">
 	<div class="nav-container">
 		<a href="/" class="logo">
-			<img src="/images/favicon.png" alt="Site Logo" width="55" height="35" />
+			<img src="/images/favicon.png" alt="Company logo" width="55" height="35" />
 		</a>
 		
 		<div class="nav-links">
-			<a href="/" class:active={currentPath === '/'}>Home</a>
-			<a href="/faq" class:active={currentPath === '/faq'}>FAQ</a>
+			<a href="/" class:active={page.url.pathname === '/'}>Home</a>
+			<a href="/faq" class:active={page.url.pathname === '/faq'}>FAQ</a>
 		</div>
 		
 		<div class="nav-icons">
 			<button class="icon-btn" aria-label="Search">
-				<img src="/images/search.png" alt="search" class="icon" />
+				<img src="/images/search.png" alt="" class="icon" />
 			</button>
 			
 			<button class="icon-btn" aria-label="Profile" onclick={openLoginModal}>
-				<img src="/images/profile.png" alt="profile" class="icon" />
+				<img src="/images/profile.png" alt="" class="icon" />
 			</button>
 			
 			<a href="/cart" class="icon-btn" aria-label="Cart">
-				<img src="/images/cart.png" alt="cart" class="icon" />
+				<img src="/images/cart.png" alt="" class="icon" />
 			</a>
 		</div>
 	</div>
@@ -83,10 +79,6 @@
 		align-items: center;
 		text-decoration: none;
 		transition: opacity 0.2s;
-	}
-	
-	.logo:hover {
-		opacity: 0.7;
 	}
 	
 	.nav-links {
@@ -132,10 +124,6 @@
 		justify-content: center;
 		transition: opacity 0.2s;
 		text-decoration: none;
-	}
-	
-	.icon-btn:hover {
-		opacity: 0.7;
 	}
 
 	.icon {
