@@ -2,14 +2,8 @@
   import { cart } from '$lib/stores/cartStore'
   import { goto } from '$app/navigation'
   
-  let cartItems = $state([])
-  
-  cart.subscribe(items => {
-    cartItems = items
-  })
-  
   let subtotal = $derived(
-    cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+    $cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
   )
   
   function updateQuantity(productId, newQuantity) {
@@ -23,7 +17,7 @@
   }
 
   function handleCheckout() {
-    if (cartItems.length === 0) {
+    if ($cart.length === 0) {
       alert('Your cart is empty. Please add items before checking out.');
       return;
     }
@@ -42,7 +36,7 @@
 
   <h1 class="cart-title">Your Cart</h1>
 
-  {#if cartItems.length > 0}
+  {#if $cart.length > 0}
     <div class="cart-content">
       <div class="cart-header">
         <div class="header-item"></div>
@@ -51,7 +45,7 @@
         <div class="header-item header-total">Total</div>
       </div>
 
-      {#each cartItems as item}
+      {#each $cart as item}
         <div class="cart-item">
           <div class="item-info">
             <div class="item-image">
